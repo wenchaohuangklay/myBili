@@ -1,0 +1,29 @@
+#默认配置
+spring:
+  profiles:
+    active: dev
+#公共配置与profiles选择无关
+mybatis:
+  typeAliasesPackage: com.klay.model
+  mapperLocations: classpath:mapper/*.xml
+
+---
+
+#开发配置
+  spring:
+    profiles: dev
+
+    datasource:
+        url: jdbc:mysql://localhost:3306/bilibili
+        username: root
+        password: 123456
+        driver-class-name: com.mysql.jdbc.Driver
+        #使用druid数据源
+        type: com.alibaba.druid.pool.DruidDataSource
+    thymeleaf:
+        prefix: classpath:/templates/
+        suffix: .html
+        mode: HTML5
+        encoding: UTF-8
+        enabled: true
+        cache: false

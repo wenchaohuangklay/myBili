@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name=”viewport” content=”width=device-width, initial-scale=1″ />
+    <title>播放</title>
+    <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/angular-route/1.3.13/angular-route.js"></script>
+</head>
+<body>
+<div ng-app="app" ng-controller="myCtrl">
+    <div th:include="header.html"></div>
+    <div style="width: 50%;margin: 3% auto">
+        <video style="width:100%;margin:1% auto" controls preload="metadata">
+            <source type="video/mp4" th:src="${videoPath}">
+        </video>
+    </div>
+
+    <div class="panel panel-default" style="width: 80%;margin: 1% auto">
+        <div class="panel-heading">
+            评论
+        </div>
+            <div class="panel-body">
+                <div th:each="comment,commentState:${commentList}">
+                    <div style="color: deepskyblue">
+                        <span th:text="${comment.getUserId()}"></span>
+                        <span th:text="${commentState.count}+'楼'" style="float: right"></span>
+                    </div>
+                    <div style="margin-left: 10%">
+                        <span th:text="${comment.getValue()}"></span>
+                    </div>
+                    <hr style="border:1px dashed #000; height:1px">
+                </div>
+            </div>
+    </div>
+    <!--<input th:text="${param.videoId}">
+    <input th:text="${session.sessionUsername}">-->
+</div>
+</body>
+</html>

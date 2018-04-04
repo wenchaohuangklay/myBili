@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name=”viewport” content=”width=device-width, initial-scale=1″ />
+    <title>bilibili</title>
+</head>
+<body>
+<div>
+    <ul class="nav nav-pills">
+        <li class="active" style="padding-left: 3%;">
+            <a href="/index">
+                <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+            </a>
+        </li>
+        <li>
+            <a href="#">画板</a>
+        </li>
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                导航<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="/index/category" th:href="@{/index/category(videoType=动漫)}">动漫</a>
+                </li>
+                <li>
+                    <a href="/index/category" th:href="@{/index/category(videoType=科技)}">科技</a>
+                </li>
+                <li>
+                    <a href="/index/category" th:href="@{/index/category(videoType=电影)}">电影</a>
+                </li>
+            </ul>
+        </li>
+        <li style="margin-left: 45%;margin-top: 3px">
+            <div class="input-group" style="width: 300px">
+                <input type="text" class="form-control" placeholder="soso" aria-describedby="addon">
+                <span class="input-group-addon" id="addon">搜索</span>
+            </div>
+        </li>
+        <li style="margin-left: 3%" th:if="${username}==null">
+            <a href="/login">登录</a>
+        </li>
+        <li style="margin-left: 1%" th:if="${username}==null">
+            <a href="/register">注册</a>
+        </li>
+        <li style="margin-left: 3%">
+            <a href="#">
+                <span style="width: content-box;height: content-box" th:text="${username}"></span>
+            </a>
+        </li>
+        <li style="margin-left: 1%" th:if="${username}!=null">
+            <a href="/logOut">登出</a>
+        </li>
+    </ul>
+</div>
+<div ><!--image-->
+    <img src="../image/head2_img.png" style="width: 100%;height: auto" class="img-rounded">
+</div>
+</body>
+</html>
