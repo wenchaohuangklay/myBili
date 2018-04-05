@@ -16,26 +16,30 @@
 <div ng-app="app" ng-controller="myCtrl">
     <div th:include="header.html"></div><!--header导航栏-->
     <!--第一个面板-->
-    <div class="panel panel-default" style="padding-bottom: 20px">
-        <div class="panel-heading" style="align-content: center">
+    <div class="panel panel-default">
+        <div class="panel-heading">
             <div>
-                <span class="glyphicon glyphicon-modal-window"> 动漫</span>
+                <!--<img src="../image/icon.svg" style="width: 2%;height: auto"></img>-->
+                <span class="fa fa-camera-retro" style="color: deepskyblue"> 动漫</span>
                 <a href="/index/category" th:href="@{/index/category(videoType=动漫)}" style="margin-left: 85%">更多</a>
             </div>
         </div>
         <div class="panel-body">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-3" ng-repeat="video in videos | filter:{videoType:'动漫'}">
-                        <div style="width: 205px;height: 165px;margin-bottom: 30px">
-                            <a href="/index/showVideo?videoPath={{video.videoPath}}&videoId={{video.videoId}}">
-                                <img src="{{video.videoCoverPath}}" style="width: 200px;height: 160px"
-                                     class="img-thumbnail">
-                            </a>
-                            <a href="/index/showVideo?videoPath={{video.videoPath}}">
-                                {{video.videoTitle}} {{video.videoWatchCount}}
-                            </a>
-                        </div>
+                    <div class="col-md-3" ng-repeat="video in videos | filter:{videoType:'动漫'}|limitTo:8">
+                        <div style="width: 100%;height: 80%;margin-bottom: 30px">
+                            <div>
+                                <a href="/index/showVideo?videoPath={{video.videoPath}}&videoId={{video.videoId}}">
+                                    <img src="{{video.videoCoverPath}}" class="img-thumbnail" style="width: 100%;height: 200px;">
+                                </a>
+                            </div>
+                            <div>
+                                <a href="/index/showVideo?videoPath={{video.videoPath}}&videoId={{video.videoId}}" style="width: 100px">
+                                    {{video.videoTitle}}
+                                </a>
+                                <span style="float: right">播放：{{video.videoWatchCount}}</span>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -43,7 +47,7 @@
     </div>
 
     <!--第二个面板-->
-    <div class="panel panel-default" style="padding-bottom: 30px">
+    <div class="panel panel-default">
         <div class="panel-heading">
             <span class="glyphicon glyphicon-sd-video">科技</span>
             <a href="/index/category" th:href="@{/index/category(videoType=科技)}" style="margin-left: 85%">更多</a>
@@ -51,15 +55,19 @@
         <div class="panel-body">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-3" ng-repeat="video in videos | filter:{videoType:'科技'}">
-                        <div style="width: 205px;height: 165px;margin-bottom: 30px">
-                            <a href="/index/showVideo?videoPath={{video.videoPath}}">
-                                <img src="{{video.videoCoverPath}}" style="width: 200px;height: 160px"
-                                     class="img-thumbnail">
-                            </a>
-                            <a href="/index/showVideo?videoPath={{video.videoPath}}" style="width: 100px">
-                                {{video.videoTitle}} {{video.videoWatchCount}}
-                            </a>
+                    <div class="col-md-3" ng-repeat="video in videos | filter:{videoType:'科技'}|limitTo:8">
+                        <div style="width: 100%;height: 80%;margin-bottom: 30px">
+                            <div>
+                                <a href="/index/showVideo?videoPath={{video.videoPath}}&videoId={{video.videoId}}">
+                                    <img src="{{video.videoCoverPath}}" class="img-thumbnail" style="width: 100%;height: 200px;">
+                                </a>
+                            </div>
+                            <div>
+                                <a href="/index/showVideo?videoPath={{video.videoPath}}&videoId={{video.videoId}}" style="width: 100px">
+                                    {{video.videoTitle}}
+                                </a>
+                                <span style="float: right">播放：{{video.videoWatchCount}}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -68,7 +76,7 @@
     </div>
 
     <!--第三个面板-->
-    <div class="panel panel-default" style="padding-bottom: 30px">
+    <div class="panel panel-default">
         <div class="panel-heading">
             <span class="glyphicon glyphicon-sd-video">电影</span>
             <a href="/index/category" th:href="@{/index/category(videoType=电影)}" style="margin-left: 85%">更多</a>
@@ -76,16 +84,19 @@
         <div class="panel-body">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-3" ng-repeat="video in videos | filter:{videoType:'电影'}">
-                        <div style="width: 205px;height: 165px;margin-bottom: 30px">
-                            <a href="/index/showVideo?videoPath={{video.videoPath}}">
-                                <img src="{{video.videoCoverPath}}" style="width: 200px;height: 160px"
-                                     class="img-thumbnail">
-                            </a>
-                            <a href="/index/showVideo?videoPath={{video.videoPath}}" style="width: 100px">
-                                {{video.videoTitle}} {{video.videoWatchCount}}
-                            </a>
-                        </div>
+                    <div class="col-md-3" ng-repeat="video in videos | filter:{videoType:'电影'}|limitTo:8">
+                        <div style="width: 100%;height: 80%;margin-bottom: 30px">
+                            <div>
+                                <a href="/index/showVideo?videoPath={{video.videoPath}}&videoId={{video.videoId}}">
+                                    <img src="{{video.videoCoverPath}}" class="img-thumbnail" style="width: 100%;height: 200px;">
+                                </a>
+                            </div>
+                            <div>
+                                <a href="/index/showVideo?videoPath={{video.videoPath}}&videoId={{video.videoId}}" style="width: 100px">
+                                    {{video.videoTitle}}
+                                </a>
+                                <span style="float: right">播放：{{video.videoWatchCount}}</span>
+                            </div>
                     </div>
                 </div>
             </div>

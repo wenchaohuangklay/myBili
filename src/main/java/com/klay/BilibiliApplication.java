@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @ComponentScan
 @MapperScan("com.klay.dao")
 @EnableScheduling
+
 public class BilibiliApplication {
 
 	public static void main(String[] args) {
