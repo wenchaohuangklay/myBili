@@ -36,9 +36,38 @@
                     <hr style="border:1px dashed #000; height:1px">
                 </div>
             </div>
+
+    <form role="form" th:if="${session.sessionUsername} != null">
+        <label th:text="${session.sessionUsername}" style="color: red"></label>--
+        <label for="comment">发表评论：</label>
+        <div class="form-group">
+            <textarea class="form-control" rows="3" id="comment" name="comment" ng-model="comment"></textarea>
+        </div>
+        <div>
+            <input type="button" class="btn btn-default" style="float:right;color: deepskyblue" ng-click="addComment()" value="发表">
+        </div>
+    </form>
     </div>
     <!--<input th:text="${param.videoId}">
     <input th:text="${session.sessionUsername}">-->
 </div>
+<script th:inline="javascript">
+    var app = angular.module('app',[]);
+    app.controller('myCtrl',function ($scope, $http,$window) {
+        $scope.addComment = function () {
+            $http({
+                method: "POST",
+                url: '/addComment',
+                params: {
+                   comment : $scope.comment,
+                   videoId : [[${videoId}]]
+                }
+            }).then(function successCallback(response) {
+                $window.location.reload();
+            },function errorCallback(response){
+            });
+        }
+    });
+</script>
 </body>
 </html>
