@@ -25,7 +25,7 @@
             评论
         </div>
             <div class="panel-body">
-                <div th:each="comment,commentState:${commentList}">
+                <!--<div th:each="comment,commentState:${commentList}">
                     <div style="color: deepskyblue">
                         <span th:text="${comment.getUserId()}"></span>
                         <span th:text="${commentState.count}+'楼'" style="float: right"></span>
@@ -34,7 +34,19 @@
                         <span th:text="${comment.getValue()}"></span>
                     </div>
                     <hr style="border:1px dashed #000; height:1px">
-                </div>
+                </div>-->
+
+                <ul class="list-group" th:each="comment,commentState:${commentList}">
+                    <li class="list-group-item">
+                        <div style="color: deepskyblue">
+                            <span th:text="${comment.getUserId()}"></span>
+                            <span th:text="${commentState.count}+'楼'" style="float: right"></span>
+                        </div>
+                        <div style="margin-left: 10%">
+                            <span th:text="${comment.getValue()}"></span>
+                        </div>
+                    </li>
+                </ul>
             </div>
 
     <form role="form" th:if="${session.sessionUsername} != null">
