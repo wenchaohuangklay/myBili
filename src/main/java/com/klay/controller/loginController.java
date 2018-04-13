@@ -30,6 +30,7 @@ public class loginController {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         User user = userMapper.selectByPrimaryKey(username);
+        String userNickName = user.getUserName();
         String str = "";
         if (user == null || !user.getUserPassword().equals(password))
         {
@@ -39,6 +40,7 @@ public class loginController {
         }
 
         httpSession.setAttribute("sessionUsername",username);
+        httpSession.setAttribute("nickName",userNickName);
 
         return str;
     }

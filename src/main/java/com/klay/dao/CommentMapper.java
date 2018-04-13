@@ -44,5 +44,6 @@ public interface CommentMapper {
      */
     int updateByPrimaryKey(Comment record);
 
+    List<Comment> selectByUserId(String userId);
     List<Comment> selectByVideoId(String videoId);
 }

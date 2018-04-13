@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>个人主页</title>
+    <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/angular-route/1.3.13/angular-route.js"></script>
+</head>
+<body>
+<div ng-app="app" ng-controller="myCtrl">
+    <div th:include="header.html"></div><!--页面头部-->
+    <div><!--主体-->
+        <div style="height: 120px;margin-top: 10px"><!--主体头部-->
+            <div style="text-align: center">
+                <img th:src="${user.getAvatar()}" style="width: 100px;height: auto;" class="img-rounded" alt="../image/dongman.jpg">
+            </div>
+            <div style="text-align: center;margin-top: 10px;font-size: 20px;font-weight: bold">
+                <span th:text="${user.getUserName()}"></span>
+            </div>
+            <div style="text-align: center">
+                <span th:text="一个谜一样的男人"></span>
+            </div>
+        </div>
+        <div><!--主体身体-->
+            <div style="float:left;width: 60%;margin-top: 10px;margin-left: 45px"><!--主体身体右部-->
+                <div><!--上半部分-->
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            最新评论：
+                        </div>
+                        <div class="panel-body pre-scrollable">
+                            <ul class="list-group" th:each="comment: ${commentList}">
+                                <li class="list-group-item">
+                                    <div>
+                                        视频：
+                                        <span th:text="${comment.getVideoId()}"></span>
+                                    </div>
+                                    <div>
+                                        <span th:text="${comment.getValue()}" style="margin-left: 10%"></span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
+            </div>
+            <div style="float:right;width: 30%;margin-top: 10px;margin-right: 45px"><!--主体身体左部-->
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <img th:src="${user.getAvatar()}" style="width: 50px;height: auto;" class="img-rounded" alt="../image/dongman.jpg">
+                        <span class="glyphicon glyphicon-user">个人信息</span>
+                        <button ng-click="change()" class="btn btn-primary">修改</button>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="list-group" ng-if="flag">
+                            <li class="list-group-item">
+                                账号：
+                                <span th:text="${user.getUserId()}"></span>
+                            </li>
+                            <li class="list-group-item">
+                                昵称：
+                                <span th:text="${user.getUserName()}"></span>
+                            </li>
+                            <li class="list-group-item">
+                                邮箱：
+                                <span th:text="${user.getUserEmail()}"></span>
+                            </li>
+                            <li class="list-group-item">
+                                性别：
+                                <span th:text="${user.getUserGender()}"></span>
+                            </li>
+                            <li class="list-group-item">
+                                出生日期：
+                                <span th:text="${#dates.format(user.getUserBirthday(),'yyyy-MM-dd')}"></span>
+                            </li>
+                        </ul>
+                        <form role="form" action="/profile/change"><!--修改个人信息表单-->
+                        <ul class="list-group" ng-if="!flag">
+                            <li class="list-group-item">
+                                <label for="userId">账号：</label>
+                                <input id="userId" name="userId" th:value="${user.getUserId()}" class="form-control">
+                            </li>
+                            <li class="list-group-item">
+                                <label for="userName">昵称：</label>
+                                <input id="userName" name="userName" th:value="${user.getUserName()}" class="form-control">
+                            </li>
+                            <li class="list-group-item">
+                                <label for="userEmail">邮箱：</label>
+                                <input id="userEmail" name="userEmail" th:value="${user.getUserEmail()}" class="form-control">
+                            </li>
+                            <li class="list-group-item">
+                                <label for="gender">性别：</label>
+                                <input id="gender" name="gender" th:value="${user.getUserGender()}" class="form-control">
+                            </li>
+                            <li class="list-group-item">
+                                <label for="birthday">出生日期：</label>
+                                <input id="birthday" name="birthday" th:value="${#dates.format(user.getUserBirthday(),'yyyy-MM-dd')}" class="form-control">
+                            </li>
+                            <li class="list-group-item">
+                                <button type="submit" class="btn btn-default">保存</button>
+                                <button type="reset"  class="btn btn-default" ng-click="change()">取消</button>
+                            </li>
+                        </ul>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+    var app = angular.module("app",[]);
+    app.controller('myCtrl',function ($scope, $http) {
+        /*$http({
+            method: 'GET',
+            url: '/getProfile'
+        }).then(function success(){
+
+        },function error(){
+
+        })*/
+        $scope.flag = true;
+        $scope.change = function () {
+            if ($scope.flag)
+            {
+                $scope.flag = false;
+            }else{
+                $scope.flag = true;
+            }
+
+        }
+    });
+</script>
+</body>
+</html>

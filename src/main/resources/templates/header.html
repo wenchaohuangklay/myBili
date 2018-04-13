@@ -49,12 +49,12 @@
             <li style="margin-left: 1%" th:if="${username}==null">
                 <a href="/register" class="btn btn-primary">注册</a>
             </li>
-            <li style="margin-left: 4%" th:if="${username}!=null">
-                <a href="#" class="btn btn-success">
-                    <span style="width: content-box;height: content-box" th:text="${username}"></span>
+            <li style="margin-left: 4%" th:if="${session.sessionUsername}!=null">
+                <a href="/profile" class="btn btn-success">
+                    <span style="width: content-box;height: content-box" th:text="${session.nickName}"></span>
                 </a>
             </li>
-            <li style="margin-left: 1%" th:if="${username}!=null">
+            <li style="margin-left: 1%" th:if="${session.sessionUsername}!=null">
                 <a href="/logOut" class="ben btn-warning">登出</a>
             </li>
         </ul>
