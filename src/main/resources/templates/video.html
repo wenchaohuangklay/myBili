@@ -14,58 +14,84 @@
 <body>
 <div ng-app="app" ng-controller="myCtrl">
     <div th:include="header.html"></div>
-    <div style="width: 50%;margin: 3% auto">
-        <video style="width:100%;margin:1% auto" controls preload="metadata">
-            <source type="video/mp4" th:src="${videoPath}">
-        </video>
-    </div>
-
-    <div class="panel panel-success" style="width: 80%;margin: 1% auto">
-        <div class="panel-heading">
-            评论
-        </div>
-            <div class="panel-body pre-scrollable">
-                <!--<div th:each="comment,commentState:${commentList}">
-                    <div style="color: deepskyblue">
-                        <span th:text="${comment.getUserId()}"></span>
-                        <span th:text="${commentState.count}+'楼'" style="float: right"></span>
-                    </div>
-                    <div style="margin-left: 10%">
-                        <span th:text="${comment.getValue()}"></span>
-                    </div>
-                    <hr style="border:1px dashed #000; height:1px">
-                </div>-->
-
-                <ul class="list-group" th:each="comment,commentState:${commentList}">
-                    <li class="list-group-item">
-                        <div style="color: deepskyblue">
-                            <span th:text="${comment.getUserId()}"></span>
-                            <span th:text="${commentState.count}+'楼'" style="float: right"></span>
-                        </div>
-                        <div style="margin-left: 10%">
-                            <span th:text="${comment.getValue()}"></span>
-                        </div>
-                    </li>
-                </ul>
+    <div style="margin-top: 3%;">
+        <div style="float: left;width: 40%;margin-left: 8%">
+            <div>
+            <video style="width:100%;margin:1% auto" controls preload="metadata">
+                <source type="video/mp4" th:src="${videoPath}">
+            </video>
             </div>
-
-    <form role="form" th:if="${session.sessionUsername} != null">
-        <label th:text="${session.sessionUsername}" style="color: red"></label>--
-        <label for="comment">发表评论：</label>
-        <div class="form-group">
-            <textarea class="form-control" rows="3" id="comment" name="comment" ng-model="comment"></textarea>
+            <div style="float: right" th:if="${session.sessionUsername}!=null">
+                <a href="#" ng-click="likeVideo();change()" ng-if="!flag">
+                <span class="glyphicon glyphicon-star-empty">添加至喜欢</span>
+                </a>
+                <a href="#" ng-click="dislikeVideo();change()" ng-if="flag">
+                    <span class="glyphicon glyphicon-star">不再喜欢</span>
+                </a>
+            </div>
         </div>
-        <div>
-            <input type="button" class="btn btn-default" style="float:right;color: deepskyblue" ng-click="addComment()" value="发表">
+        <div style="float: right;width: 40%;margin-right: 8%">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    评论
+                </div>
+                <div class="panel-body pre-scrollable" style="max-height: 200px">
+                    <ul class="list-group" th:each="comment,commentState:${commentList}">
+                        <li class="list-group-item" style="font-size: 12px;">
+                            <div style="color: deepskyblue;">
+                                <span th:text="${comment.getUserId()}"></span>
+                                <span th:text="${commentState.count}+'楼'" style="float: right"></span>
+                            </div>
+                            <div style="margin-left: 10%">
+                                <span th:text="${comment.getValue()}"></span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <form role="form" th:if="${session.sessionUsername} != null">
+                    <label th:text="${session.sessionUsername}" style="color: red"></label>--
+                    <label for="comment">发表评论：</label>
+                    <div class="form-group">
+                        <textarea class="form-control" rows="3" id="comment" name="comment"
+                                  ng-model="comment"></textarea>
+                    </div>
+                    <div>
+                        <input type="button" class="btn btn-default" style="float:right;color: deepskyblue"
+                               ng-click="addComment()" value="发表">
+                    </div>
+                </form>
+            </div>
         </div>
-    </form>
     </div>
-    <!--<input th:text="${param.videoId}">
-    <input th:text="${session.sessionUsername}">-->
+  <!--  <span th:text="${videoId}"></span>-->
 </div>
 <script th:inline="javascript">
     var app = angular.module('app',[]);
     app.controller('myCtrl',function ($scope, $http,$window) {
+
+        $http({
+            method: "GET",
+            url: '/selectAllVideoLike',
+            params: {
+                videoId : [[${videoId}]]
+            }
+        }).then(function successCallback(response) {
+            $scope.flag = response.data
+        },function errorCallback(response){
+        });
+
+        $scope.change = function () {
+            if ($scope.flag)
+            {
+                $scope.flag = false;
+            }else{
+                $scope.flag = true;
+            }
+
+        }
+
         $scope.addComment = function () {
             $http({
                 method: "POST",
@@ -78,6 +104,34 @@
                 $window.location.reload();
             },function errorCallback(response){
             });
+        }
+
+        $scope.likeVideo = function () {
+            $http({
+                method: 'POST',
+                url:'/addVideoLike',
+                params:{
+                    videoId:[[${videoId}]]
+                }
+            }).then(function successCallback(response){
+                $window.location.reload();
+            },function errorCallback(response){
+
+            })
+        }
+
+        $scope.dislikeVideo = function () {
+            $http({
+                method: 'POST',
+                url:'/deleteVideoLike',
+                params:{
+                    videoId:[[${videoId}]]
+                }
+            }).then(function successCallback(response){
+                $window.location.reload();
+            },function errorCallback(response){
+
+            })
         }
     });
 </script>

@@ -16,7 +16,8 @@
     <div><!--主体-->
         <div style="height: 120px;margin-top: 10px"><!--主体头部-->
             <div style="text-align: center">
-                <img th:src="${user.getAvatar()}" style="width: 100px;height: auto;" class="img-rounded" alt="../image/dongman.jpg">
+                <img th:src="${user.getAvatar()}" style="width: 100px;height: auto;" class="img-rounded"
+                     alt="../image/dongman.jpg">
             </div>
             <div style="text-align: center;margin-top: 10px;font-size: 20px;font-weight: bold">
                 <span th:text="${user.getUserName()}"></span>
@@ -27,7 +28,35 @@
         </div>
         <div><!--主体身体-->
             <div style="float:left;width: 60%;margin-top: 10px;margin-left: 45px"><!--主体身体右部-->
-                <div><!--上半部分-->
+                <div><!--右部的上部-->
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            喜欢的视频：
+                        </div>
+                        <div class="panel-body" style="overflow-x: scroll">
+                            <div th:each="video,videoState:${videoList}" class="col-md-2">
+                                <div style="width: 60px;height:60px;">
+                                    <div>
+                                        <a href="/index/showVideo"
+                                           th:href="@{/index/showVideo(videoPath=${video.getVideoPath()},videoId=${video.getVideoId()})}">
+                                            <img th:src="${video.getVideoCoverPath()}"
+                                                 style="width: 100%;height: 50px;"
+                                                 class="img-thumbnail">
+                                        </a>
+                                    </div>
+                                    <div style="font-size: 8px">
+                                        <a href="/index/showVideo"
+                                           th:href="@{/index/showVideo(videoPath=${video.getVideoPath()},videoId=${video.getVideoId()})}">
+                                            <label th:text="${video.getVideoTitle()}"></label>
+                                        </a>
+                                        <!--<span th:text="${video.getVideoWatchCount()}" style="float: right"></span>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div><!--右部的下部-->
                     <div class="panel panel-info">
                         <div class="panel-heading">
                             最新评论：
@@ -46,15 +75,13 @@
                             </ul>
                         </div>
                     </div>
-                    <div>
-
-                    </div>
                 </div>
             </div>
             <div style="float:right;width: 30%;margin-top: 10px;margin-right: 45px"><!--主体身体左部-->
                 <div class="panel panel-success">
                     <div class="panel-heading">
-                        <img th:src="${user.getAvatar()}" style="width: 50px;height: auto;" class="img-rounded" alt="../image/dongman.jpg">
+                        <img th:src="${user.getAvatar()}" style="width: 50px;height: auto;" class="img-rounded"
+                             alt="../image/dongman.jpg">
                         <span class="glyphicon glyphicon-user">个人信息</span>
                         <button ng-click="change()" class="btn btn-primary">修改</button>
                     </div>
@@ -82,32 +109,38 @@
                             </li>
                         </ul>
                         <form role="form" action="/profile/change"><!--修改个人信息表单-->
-                        <ul class="list-group" ng-if="!flag">
-                            <li class="list-group-item">
-                                <label for="userId">账号：</label>
-                                <input id="userId" name="userId" th:value="${user.getUserId()}" class="form-control">
-                            </li>
-                            <li class="list-group-item">
-                                <label for="userName">昵称：</label>
-                                <input id="userName" name="userName" th:value="${user.getUserName()}" class="form-control">
-                            </li>
-                            <li class="list-group-item">
-                                <label for="userEmail">邮箱：</label>
-                                <input id="userEmail" name="userEmail" th:value="${user.getUserEmail()}" class="form-control">
-                            </li>
-                            <li class="list-group-item">
-                                <label for="gender">性别：</label>
-                                <input id="gender" name="gender" th:value="${user.getUserGender()}" class="form-control">
-                            </li>
-                            <li class="list-group-item">
-                                <label for="birthday">出生日期：</label>
-                                <input id="birthday" name="birthday" th:value="${#dates.format(user.getUserBirthday(),'yyyy-MM-dd')}" class="form-control">
-                            </li>
-                            <li class="list-group-item">
-                                <button type="submit" class="btn btn-default">保存</button>
-                                <button type="reset"  class="btn btn-default" ng-click="change()">取消</button>
-                            </li>
-                        </ul>
+                            <ul class="list-group" ng-if="!flag">
+                                <li class="list-group-item">
+                                    <label for="userId">账号：</label>
+                                    <input id="userId" name="userId" th:value="${user.getUserId()}"
+                                           class="form-control">
+                                </li>
+                                <li class="list-group-item">
+                                    <label for="userName">昵称：</label>
+                                    <input id="userName" name="userName" th:value="${user.getUserName()}"
+                                           class="form-control">
+                                </li>
+                                <li class="list-group-item">
+                                    <label for="userEmail">邮箱：</label>
+                                    <input id="userEmail" name="userEmail" th:value="${user.getUserEmail()}"
+                                           class="form-control">
+                                </li>
+                                <li class="list-group-item">
+                                    <label for="gender">性别：</label>
+                                    <input id="gender" name="gender" th:value="${user.getUserGender()}"
+                                           class="form-control">
+                                </li>
+                                <li class="list-group-item">
+                                    <label for="birthday">出生日期：</label>
+                                    <input id="birthday" name="birthday"
+                                           th:value="${#dates.format(user.getUserBirthday(),'yyyy-MM-dd')}"
+                                           class="form-control">
+                                </li>
+                                <li class="list-group-item">
+                                    <button type="submit" class="btn btn-default">保存</button>
+                                    <button type="reset" class="btn btn-default" ng-click="change()">取消</button>
+                                </li>
+                            </ul>
                         </form>
                     </div>
                 </div>
