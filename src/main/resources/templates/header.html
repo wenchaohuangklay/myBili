@@ -43,10 +43,10 @@
                     <span class="input-group-addon" id="addon">搜索</span>
                 </div>
             </li>
-            <li style="margin-left: 4%" th:if="${username}==null">
+            <li style="margin-left: 4%" th:if="${session.sessionUsername}==null">
                 <a href="/login" class="btn btn-success">登录</a>
             </li>
-            <li style="margin-left: 1%" th:if="${username}==null">
+            <li style="margin-left: 1%" th:if="${session.sessionUsername}==null">
                 <a href="/register" class="btn btn-primary">注册</a>
             </li>
             <li style="margin-left: 4%" th:if="${session.sessionUsername}!=null">

@@ -59,7 +59,7 @@
                 <div><!--右部的下部-->
                     <div class="panel panel-info">
                         <div class="panel-heading">
-                            最新评论：
+                            我的视频：
                         </div>
                         <div class="panel-body pre-scrollable">
                             <ul class="list-group" th:each="comment: ${commentList}">
@@ -84,6 +84,7 @@
                              alt="../image/dongman.jpg">
                         <span class="glyphicon glyphicon-user">个人信息</span>
                         <button ng-click="change()" class="btn btn-primary">修改</button>
+                        <a href="/uploadVideo" class="btn btn-success">上传</a>
                     </div>
                     <div class="panel-body">
                         <ul class="list-group" ng-if="flag">
@@ -143,11 +144,45 @@
                             </ul>
                         </form>
                     </div>
+                </div><!--左部的上部-->
+                <div><!--右部的上部-->
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            喜欢的视频：
+                        </div>
+                        <div class="panel-body" style="overflow-x: scroll">
+                            <div th:each="video,videoState:${myVideoList}" class="col-md-2">
+                                <div style="width: 60px;height:60px;">
+                                    <div>
+                                        <a href="/index/showVideo"
+                                           th:href="@{/index/showVideo(videoPath=${video.getVideoPath()},videoId=${video.getVideoId()})}">
+                                            <img th:src="${video.getVideoCoverPath()}"
+                                                 style="width: 100%;height: 50px;"
+                                                 class="img-thumbnail">
+                                        </a>
+                                    </div>
+                                    <div style="font-size: 8px">
+                                        <a href="/index/showVideo"
+                                           th:href="@{/index/showVideo(videoPath=${video.getVideoPath()},videoId=${video.getVideoId()})}">
+                                            <label th:text="${video.getVideoTitle()}"></label>
+                                        </a>
+                                        <!--<span th:text="${video.getVideoWatchCount()}" style="float: right"></span>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<!--<div>
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file"/>
+        <input type="submit" value="Upload"/>
+    </form>
+</div>-->
 <script th:inline="javascript">
     var app = angular.module("app",[]);
     app.controller('myCtrl',function ($scope, $http) {

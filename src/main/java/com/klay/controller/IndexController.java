@@ -27,6 +27,7 @@ public class IndexController {
     public String home(HttpSession session, Model model){
         model.addAttribute("username",session.getAttribute("sessionUsername"));
         session.removeAttribute("msg");
+        session.removeAttribute("wrongId");
         return "index";
     }
 
@@ -41,6 +42,7 @@ public class IndexController {
     @RequestMapping("/showVideo")
     public String show(Model model, @RequestParam(value = "videoPath", required = false)String videoPath,@RequestParam(value = "videoId", required = false)String videoId,HttpSession session){
         session.removeAttribute("msg");
+        session.removeAttribute("wrongId");
         List<Comment> commentList = this.videoService.getCommentByVideoId(videoId);
         model.addAttribute("videoPath",videoPath);
         model.addAttribute("videoId",videoId);
@@ -52,6 +54,7 @@ public class IndexController {
     @RequestMapping("/category")
     public String category(Model model,HttpSession session,@RequestParam(value = "videoType", required = false)String videoType){
         session.removeAttribute("msg");
+        session.removeAttribute("wrongId");
         List<Video> videoList = this.indexService.getVideoByVideoType(videoType);
         model.addAttribute("username",session.getAttribute("sessionUsername"));
         model.addAttribute("videoList",videoList);

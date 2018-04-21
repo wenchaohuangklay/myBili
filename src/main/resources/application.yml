@@ -27,3 +27,7 @@ mybatis:
         encoding: UTF-8
         enabled: true
         cache: false
+    servlet:
+      multipart:
+        max-file-size: -1
+        max-request-size: -1

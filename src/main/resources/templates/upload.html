@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>上传</title>
+    <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/angular-route/1.3.13/angular-route.js"></script>
+</head>
+<body>
+<div ng-app="app" ng-controller="myCtrl">
+    <div th:include="header.html"></div><!--页面头部-->
+</div>
+<div style="width: 200px;margin: 0.5% auto;color: red" >
+    <span th:text="${session.wrongId}"></span>
+</div>
+<form style="width: 33%;margin-left: 33%;margin-top: 2%" action="/upload" method="POST" name="myForm" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="videoId">视频id：</label>
+        <input type="text" class="form-control" id="videoId" name="videoId" placeholder="英文字母+数字" required="required">
+    </div>
+    <div class="form-group">
+        <label for="videoTitle">视频名称：</label>
+        <input type="text" class="form-control" id="videoTitle" name="videoTitle"placeholder="视频名称" required="required">
+    </div>
+    <div class="form-group">
+        <label for="file">视频文件：</label>
+        <input type="file" class="form-control" id="file" name="file" required="required">
+    </div>
+    <div class="form-group">
+        <label>视频类别：</label>
+        <div class="radio">
+            <label>
+                <input type="radio" name="videoType" id="dongman" value="动漫" checked>动漫
+            </label>
+            <label>
+                <input type="radio" name="videoType" id="keji" value="科技" checked>科技
+            </label>
+            <label>
+                <input type="radio" name="videoType" id="dianying" value="电影" checked>电影
+            </label>
+            <label>
+                <input type="radio" name="videoType" id="dianshiju" value="电视剧" checked>电视剧
+            </label>
+        </div>
+    </div>
+    <input type="submit" value="保存" class="btn btn-default">
+    <input type="reset" value="取消" class="btn btn-default">
+</form>
+</body>
+</html>

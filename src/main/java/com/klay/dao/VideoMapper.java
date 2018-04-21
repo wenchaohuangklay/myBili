@@ -45,4 +45,5 @@ public interface VideoMapper {
     int updateByPrimaryKey(Video record);
 
     List<Video> selectByVideoType(String videoType);
+    List<Video> selectByUserId(String videoId);
 }
