@@ -229,4 +229,9 @@ public class profileController {
 
         return "upload";
     }
+
+    @RequestMapping("/server")
+    public String server(){
+        return "server";
+    }
 }

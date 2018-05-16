@@ -1,5 +1,6 @@
 package com.klay.controller;
 
+import com.klay.dao.VideoMapper;
 import com.klay.model.Comment;
 import com.klay.model.Video;
 import com.klay.service.IndexService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -22,6 +24,8 @@ public class IndexController {
     private IndexService indexService;
     @Autowired
     private VideoService videoService;
+    @Autowired
+    private VideoMapper videoMapper;
 
     @RequestMapping
     public String home(HttpSession session, Model model){
@@ -61,6 +65,15 @@ public class IndexController {
         model.addAttribute("videoType",videoType);
 
         return "category";
+    }
+
+    @RequestMapping("/search")
+    public String search(HttpServletRequest request, Model model, HttpSession session){
+        String searchTitles = request.getParameter("searchTitle");
+        List<Video> videoList = this.videoMapper.selectByUserVideoTitle(searchTitles);
+        model.addAttribute("username",session.getAttribute("sessionUsername"));
+        model.addAttribute("videoList",videoList);
+        return "searchResults";
     }
 
 }

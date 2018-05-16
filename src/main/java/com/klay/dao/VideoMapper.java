@@ -46,4 +46,6 @@ public interface VideoMapper {
 
     List<Video> selectByVideoType(String videoType);
     List<Video> selectByUserId(String videoId);
+    List<Video> selectByUserVideoTitle(String videoTitle);
+
 }

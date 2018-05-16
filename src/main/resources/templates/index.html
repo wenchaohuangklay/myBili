@@ -164,7 +164,17 @@
         }, function errorCallback(response) {
 
         });
-
+        $scope.search = function(){
+            $http({
+                method: "POST",
+                url: '/index/search',
+                params: {
+                    searchTitle : $scope.searchTitle
+                }
+            }).then(function successCallback(response) {
+            },function errorCallback(response){
+            });
+        }
 
     });
 </script>

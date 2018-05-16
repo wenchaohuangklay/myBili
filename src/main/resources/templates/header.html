@@ -6,7 +6,7 @@
     <title>bilibili</title>
 </head>
 <body>
-<div>
+<div ng-app="app" ng-controller="myCtrl">
     <!--<div style="background: url('../image/head_img.jpg');filter: blur(2px);background-repeat: no-repeat"></div>-->
     <div><!--image--><!--背景图片 模糊-->
         <img src="../image/head2_img.png" style="width: 100%;height: auto;filter: blur(2px)" class="img-rounded">
@@ -17,9 +17,6 @@
                 <a href="/index" class="btn btn-success">
                     <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
                 </a>
-            </li>
-            <li>
-                <a href="#">画板</a>
             </li>
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -38,10 +35,14 @@
                 </ul>
             </li>
             <li style="margin-left: 45%">
-                <div class="input-group" style="width: 300px">
-                    <input type="text" class="form-control" placeholder="soso" aria-describedby="addon">
-                    <span class="input-group-addon" id="addon">搜索</span>
-                </div>
+                <form action="/index/search" method="post">
+                    <div class="input-group" style="width: 300px">
+                        <input type="text" class="form-control" placeholder="soso" name="searchTitle">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">搜索</button>
+                        </span>
+                    </div>
+                </form>
             </li>
             <li style="margin-left: 4%" th:if="${session.sessionUsername}==null">
                 <a href="/login" class="btn btn-success">登录</a>
@@ -60,8 +61,5 @@
         </ul>
     </div>
 </div>
-<!--<div>&lt;!&ndash;image&ndash;&gt;
-    <img src="../image/head2_img.png" style="width: 100%;height: auto" class="img-rounded">
-</div>-->
 </body>
 </html>
