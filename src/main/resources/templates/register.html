@@ -34,18 +34,32 @@
         <label for="email">邮箱：</label>
         <input type="email" class="form-control" id="email" name="email" placeholder="邮箱">
     </div>
-    <div class="form-group">
+    <!--<div class="form-group">
         <label for="gender">性别：</label>
         <input type="text" class="form-control" id="gender" name="gender" placeholder="性别">
+    </div>-->
+    <div class="form-group">
+        <label>性别：</label>
+        <div class="radio">
+            <label>
+                <input type="radio" name="gender" id="male" value="男生" checked>男生
+            </label>
+            <label>
+                <input type="radio" name="gender" id="female" value="女生" checked>女生
+            </label>
+            <label>
+                <input type="radio" name="gender" id="secret" value="保密" checked>保密
+            </label>
+        </div>
     </div>
     <!--<div class="form-group">
         <label for="birthday">生日：</label>
         <input type="date" class="form-control" id="birthday" name="birthday" placeholder="生日">
     </div>-->
-    <div class="form-group">
+    <!--<div class="form-group">
         <label for="image">头像：</label>
         <input type="text" class="form-control" id="image" name="image" placeholder="头像">
-    </div>
+    </div>-->
     <input type="submit" value="注册" class="btn btn-default">
 </form>
 </body>

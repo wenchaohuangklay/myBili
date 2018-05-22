@@ -54,6 +54,9 @@ public class profileController {
         model.addAttribute("username",session.getAttribute("sessionUsername"));
         session.removeAttribute("wrongId");
         User user = this.userMapper.selectByPrimaryKey((String)session.getAttribute("sessionUsername"));
+        if(user.getAvatar() == null){
+            user.setAvatar("/image/dongman.jpg");
+        }
         List<Comment> commentList = this.commentMapper.selectByUserId((String)session.getAttribute("sessionUsername"));
         model.addAttribute("commentList",commentList);
         model.addAttribute("user",user);
@@ -154,7 +157,8 @@ public class profileController {
 
 
     @RequestMapping("/upload")
-    public String upload(@RequestParam("file") MultipartFile file,HttpServletRequest request,HttpSession session){
+    public String upload(@RequestParam("file") MultipartFile file,HttpServletRequest request,HttpSession session, Model model){
+        model.addAttribute("username",session.getAttribute("sessionUsername"));
         String uploadDir = "C:/Users/khuan/IdeaProjects/bilibili/src/main/resources/static/video/";/*视频存放地址*/
         String imageDir = "C:/Users/khuan/IdeaProjects/bilibili/src/main/resources/static/video_cover/";/*视频截图存放地址*/
         String filename = file.getOriginalFilename();/*视频的名字*/
@@ -221,12 +225,12 @@ public class profileController {
         video.setVideoTitle(videoTitle);
         video.setVideoType(videoType);
         int add = this.videoMapper.insert(video);
-        return "/profile";
+        return "/index";
     }
 
     @RequestMapping("/uploadVideo")
-    public String uploadVideo(){
-
+    public String uploadVideo(HttpSession session,Model model){
+        model.addAttribute("username",session.getAttribute("sessionUsername"));
         return "upload";
     }
 

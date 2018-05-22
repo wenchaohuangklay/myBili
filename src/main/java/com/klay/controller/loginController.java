@@ -30,18 +30,16 @@ public class loginController {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         User user = userMapper.selectByPrimaryKey(username);
-        String userNickName = user.getUserName();
         String str = "";
         if (user == null || !user.getUserPassword().equals(password))
         {
             str = "redirect:/login";
         }else {
             str = "redirect:/index";
+            String userNickName = user.getUserName();
+            httpSession.setAttribute("sessionUsername",username);
+            httpSession.setAttribute("nickName",userNickName);
         }
-
-        httpSession.setAttribute("sessionUsername",username);
-        httpSession.setAttribute("nickName",userNickName);
-
         return str;
     }
 

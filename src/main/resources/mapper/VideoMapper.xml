@@ -98,7 +98,7 @@
     select video_id, video_title, video_path, video_cover_path, video_watch_count, video_type,
     user_id
     from video
-    where video_title like CONCAT('%', #{videoTitle,jdbcType=VARCHAR}, '%')
+    where video_title like CONCAT('%', #{videoTitle,jdbcType=VARCHAR}, '%') or video_id like CONCAT('%', #{videoTitle,jdbcType=VARCHAR}, '%')
   </select>
 
 
