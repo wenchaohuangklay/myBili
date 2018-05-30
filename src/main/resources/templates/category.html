@@ -36,7 +36,7 @@
                                th:href="@{/index/showVideo(videoPath=${video.getVideoPath()},videoId=${video.getVideoId()})}">
                                 <label th:text="${video.getVideoTitle()}"></label>
                             </a>
-                            <span th:text="${video.getVideoWatchCount()}" style="float: right"></span>
+                            <span th:text="播放： + ${video.getVideoWatchCount()}" style="float: right"></span>
                         </div>
                     </div>
                 </div>

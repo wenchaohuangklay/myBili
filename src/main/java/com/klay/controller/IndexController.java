@@ -52,6 +52,15 @@ public class IndexController {
         model.addAttribute("videoId",videoId);
         model.addAttribute("commentList",commentList);
         model.addAttribute("username",session.getAttribute("sessionUsername"));
+        if (videoId != null) {
+            Video video = videoMapper.selectByPrimaryKey(videoId);
+            if (video.getVideoWatchCount() == null) {
+                video.setVideoWatchCount(1);
+            }else{
+                video.setVideoWatchCount(video.getVideoWatchCount() + 1);
+            }
+            int flag = videoMapper.updateByPrimaryKey(video);
+        }
         return "video";
     }
 
@@ -63,7 +72,6 @@ public class IndexController {
         model.addAttribute("username",session.getAttribute("sessionUsername"));
         model.addAttribute("videoList",videoList);
         model.addAttribute("videoType",videoType);
-
         return "category";
     }
 

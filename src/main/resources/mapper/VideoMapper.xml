@@ -100,6 +100,15 @@
     from video
     where video_title like CONCAT('%', #{videoTitle,jdbcType=VARCHAR}, '%') or video_id like CONCAT('%', #{videoTitle,jdbcType=VARCHAR}, '%')
   </select>
+  <update id="updateWatchCountByKey" parameterType="com.klay.model.Video" >
 
-
+    update video
+    set
+    video_watch_count = #{videoWatchCount,jdbcType=INTEGER},
+    where video_id = #{videoId,jdbcType=CHAR}
+  </update>
+  <delete id="deleteByUserId" parameterType="java.lang.String" >
+    delete from video
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
 </mapper>

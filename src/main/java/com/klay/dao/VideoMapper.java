@@ -48,4 +48,7 @@ public interface VideoMapper {
     List<Video> selectByUserId(String videoId);
     List<Video> selectByUserVideoTitle(String videoTitle);
 
+    int updateWatchCountByKey(Video record);
+    int deleteByUserId(String userId);
+
 }

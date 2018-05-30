@@ -1,13 +1,7 @@
 package com.klay.controller;
 
-import com.klay.dao.CommentMapper;
-import com.klay.dao.UserMapper;
-import com.klay.dao.VideoLikeMapper;
-import com.klay.dao.VideoMapper;
-import com.klay.model.Comment;
-import com.klay.model.User;
-import com.klay.model.Video;
-import com.klay.model.VideoLike;
+import com.klay.dao.*;
+import com.klay.model.*;
 import com.klay.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,6 +38,9 @@ public class profileController {
 
     @Autowired
     VideoLikeMapper videoLikeMapper;
+
+    @Autowired
+    AdminMapper adminMapper;
 
     private final Path rootLocation = Paths.get("C:\\Users\\khuan\\IdeaProjects\\bilibili\\src\\main\\resources\\static\\image");
     private final Path videoLocation = Paths.get("C:\\Users\\khuan\\IdeaProjects\\bilibili\\src\\main\\resources\\static\\video");
@@ -224,6 +221,7 @@ public class profileController {
         video.setVideoId(videoId);
         video.setVideoPath("/video/"+ file.getOriginalFilename());
         video.setVideoTitle(videoTitle);
+        video.setVideoWatchCount(0);
         video.setVideoType(videoType);
         int add = this.videoMapper.insert(video);
         return "/index";
@@ -237,9 +235,18 @@ public class profileController {
 
     @RequestMapping(value = "/server",method = RequestMethod.GET)
     public String server(Model model){
-       List<User> userList = userMapper.selectAll();
+        List<User> userList = userMapper.selectAll();
         List<Comment> commentList = commentMapper.selectAll();
         List<Video> videoList = videoMapper.selectAll();
+        List<Admin> adminList = adminMapper.selectAll();
+        for (int i = 0; i < userList.size(); i ++) {
+            for (Admin admin :
+                    adminList) {
+                    if (userList.get(i).getUserId().equals(admin.getUserId())) {
+                        userList.remove(i);
+                    }
+                }
+        }
         model.addAttribute("userList",userList);
         model.addAttribute("commentList",commentList);
         model.addAttribute("videoList",videoList);
@@ -270,6 +277,20 @@ public class profileController {
     public String deleteUser(String userId, HttpSession session, Model model){
         model.addAttribute("username",session.getAttribute("sessionUsername"));
         if (userId != null) {
+            List<Video> videoList = videoMapper.selectByUserId(userId);//查找本用户上传的视频
+            int flag4 = videoLikeMapper.deleteByUserId(userId);//删除本用户的评论
+            if (videoList != null) {
+                for (Video video :
+                        videoList) {
+                    List<Comment> commentList = commentMapper.selectByVideoId(video.getVideoId());//查找所有此视频的评论
+                    int flag3 = videoLikeMapper.deleteByVideoId(video.getVideoId());//删除收藏
+                    for (Comment comment: commentList) {
+                        int flag2 = commentMapper.deleteByPrimaryKey(comment.getId());//删除评论
+                    }
+                    int flag5 = videoMapper.deleteByUserId(video.getUserId());//删除视频
+                }
+            }
+
            int flag = userMapper.deleteByPrimaryKey(userId);
         }
         return "redirect:/server";
@@ -279,6 +300,17 @@ public class profileController {
     public String deleteVideo(String videoId, HttpSession session, Model model){
         model.addAttribute("username",session.getAttribute("sessionUsername"));
         if (videoId != null) {
+            List<Comment> commentList = commentMapper.selectByVideoId(videoId);
+            /*List<VideoLike> videoLikeList = videoLikeMapper.selectAll();
+            for (VideoLike videoLike : videoLikeList) {
+                if (videoLike.getVideoId().equals(videoId)) {
+                    int flag = videoLikeMapper.deleteByVideoId(videoId);
+                }
+            }*/
+            int flag3 = videoLikeMapper.deleteByVideoId(videoId);
+            for (Comment comment: commentList) {
+                int flag2 = commentMapper.deleteByPrimaryKey(comment.getId());
+            }
             int flag = videoMapper.deleteByPrimaryKey(videoId);
         }
         return "redirect:/server";

@@ -28,4 +28,8 @@ public interface VideoLikeMapper {
      * @mbggenerated
      */
     List<VideoLike> selectAll();
+
+    int deleteByVideoId(String videoId);
+
+    int deleteByUserId(String userId);
 }
