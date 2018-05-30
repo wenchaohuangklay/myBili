@@ -1,6 +1,8 @@
 package com.klay.controller;
 
+import com.klay.dao.AdminMapper;
 import com.klay.dao.UserMapper;
+import com.klay.model.Admin;
 import com.klay.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,9 +21,13 @@ public class loginController {
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    AdminMapper adminMapper;
+
     @RequestMapping("/login")
     public String login(HttpSession session){
         session.removeAttribute("msg");
+        session.removeAttribute("admin");
         return "login";
     }
 
@@ -39,6 +45,11 @@ public class loginController {
             String userNickName = user.getUserName();
             httpSession.setAttribute("sessionUsername",username);
             httpSession.setAttribute("nickName",userNickName);
+            Admin admin = adminMapper.selectByPrimaryKey(username);
+            if (admin != null)
+            {
+                httpSession.setAttribute("admin",true);
+            }
         }
         return str;
     }

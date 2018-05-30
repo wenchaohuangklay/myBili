@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -234,8 +235,61 @@ public class profileController {
         return "upload";
     }
 
-    @RequestMapping("/server")
-    public String server(){
+    @RequestMapping(value = "/server",method = RequestMethod.GET)
+    public String server(Model model){
+       List<User> userList = userMapper.selectAll();
+        List<Comment> commentList = commentMapper.selectAll();
+        List<Video> videoList = videoMapper.selectAll();
+        model.addAttribute("userList",userList);
+        model.addAttribute("commentList",commentList);
+        model.addAttribute("videoList",videoList);
         return "server";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/server2",method = RequestMethod.GET)
+    public List<Video> serverSec(Model model){
+        List<User> userList = userMapper.selectAll();
+        List<Comment> commentList = commentMapper.selectAll();
+        List<Video> videoList = videoMapper.selectAll();
+        model.addAttribute("userList",userList);
+        model.addAttribute("commentList",commentList);
+        model.addAttribute("videoList",videoList);
+        return videoList;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/serverUser",method = RequestMethod.GET)
+    public List<User> serverUser(Model model){
+        List<User> userList = userMapper.selectAll();
+        model.addAttribute("userList",userList);
+        return userList;
+    }
+
+    @RequestMapping("/deleteUser")
+    public String deleteUser(String userId, HttpSession session, Model model){
+        model.addAttribute("username",session.getAttribute("sessionUsername"));
+        if (userId != null) {
+           int flag = userMapper.deleteByPrimaryKey(userId);
+        }
+        return "redirect:/server";
+    }
+
+    @RequestMapping("/deleteVideo")
+    public String deleteVideo(String videoId, HttpSession session, Model model){
+        model.addAttribute("username",session.getAttribute("sessionUsername"));
+        if (videoId != null) {
+            int flag = videoMapper.deleteByPrimaryKey(videoId);
+        }
+        return "redirect:/server";
+    }
+
+    @RequestMapping("/deleteComment")
+    public String deleteComment(String commentId, HttpSession session, Model model){
+        model.addAttribute("username",session.getAttribute("sessionUsername"));
+        if (commentId != null) {
+            int flag = commentMapper.deleteByPrimaryKey(Integer.parseInt(commentId));
+        }
+        return "redirect:/server";
     }
 }
