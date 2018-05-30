@@ -227,6 +227,33 @@ public class profileController {
         return "/index";
     }
 
+    @RequestMapping("/changeAvatar")
+    public String changeAvatar(@RequestParam("file") MultipartFile file,HttpServletRequest request,HttpSession session, Model model){
+        model.addAttribute("username",session.getAttribute("sessionUsername"));
+        String uploadDir = "C:/Users/khuan/IdeaProjects/bilibili/src/main/resources/static/image/";/*图片存放地址*/
+        String filename = file.getOriginalFilename();/*tupian的名字*/
+        File serverFile = new File(uploadDir+filename);/*图片wenjian*/
+
+        if (!file.isEmpty()){
+            try {
+                if(!serverFile.getParentFile().exists()){
+                    serverFile.getParentFile().mkdirs();
+                }
+                file.transferTo(serverFile);
+                User user = userMapper.selectByPrimaryKey(session.getAttribute("sessionUsername").toString());
+                user.setAvatar("image/" + filename.substring(0,filename.indexOf(".")) + ".jpg");
+                int flag = userMapper.updateByPrimaryKey(user);
+            }catch (Exception e){
+                e.printStackTrace();
+                return "redirect:/profile";
+
+            }
+
+        }
+
+        return "redirect:/profile";
+    }
+
     @RequestMapping("/uploadVideo")
     public String uploadVideo(HttpSession session,Model model){
         model.addAttribute("username",session.getAttribute("sessionUsername"));
